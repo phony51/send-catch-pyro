@@ -32,7 +32,7 @@ class Aggregator:
         self.client.run(self.wallet.start())
         self.client.run()
 
-    @cached_property
+    @property
     def disconnect_handler(self):
         async def handler(client: Client):
             await client.stop()
@@ -40,7 +40,7 @@ class Aggregator:
 
         return DisconnectHandler(handler)
 
-    @cached_property
+    @property
     def update_handler(self):
         async def handler(_, update: Update, __, ___):
             if self._is_cheque(update):
