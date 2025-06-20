@@ -1,0 +1,10 @@
+annotated-types==0.7.0
+pyaes==1.6.1
+pydantic==2.11.7
+pydantic_core==2.33.2
+Pyrogram==2.0.106
+PySocks==1.7.1
+typing-inspection==0.4.1
+typing_extensions==4.14.0
+TgCrypto==1.2.5
+uvloop==0.21.0
