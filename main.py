@@ -1,11 +1,24 @@
 import os
 from pathlib import Path
 
-from pyrogram import Client
+from pyrogram import Client, utils
 
 from config import load_config, SESSIONS_DIR
 from core.aggregator.bot import Aggregator
 from core.wallet.bot import Wallet
+
+
+def get_peer_type_new(peer_id: int) -> str:
+    peer_id_str = str(peer_id)
+    if not peer_id_str.startswith("-"):
+        return "user"
+    elif peer_id_str.startswith("-100"):
+        return "channel"
+    else:
+        return "chat"
+
+
+utils.get_peer_type = get_peer_type_new  # FIX INVALID PEER
 
 
 def main():

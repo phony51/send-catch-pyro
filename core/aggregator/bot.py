@@ -9,6 +9,7 @@ from core.wallet.bot import Wallet
 
 
 class Aggregator:
+    __slots__ = 'client', 'wallet'
 
     @staticmethod
     def _is_cheque(update: Update):
@@ -22,20 +23,20 @@ class Aggregator:
         return False
 
     def __init__(self, client: Client, wallet: Wallet):
-        self._client = client
-        self._wallet = wallet
-        self._client.add_handler(self.update_handler)
+        self.client = client
+        self.wallet = wallet
+        self.client.add_handler(self.update_handler)
 
     def run(self):
-        self._client.add_handler(self.disconnect_handler)
-        self._client.run(self._wallet.start())
-        self._client.run()
+        self.client.add_handler(self.disconnect_handler)
+        self.client.run(self.wallet.start())
+        self.client.run()
 
     @cached_property
     def disconnect_handler(self):
         async def handler(client: Client):
             await client.stop()
-            await self._wallet.stop()
+            await self.wallet.stop()
 
         return DisconnectHandler(handler)
 
@@ -43,6 +44,6 @@ class Aggregator:
     def update_handler(self):
         async def handler(_, update: Update, __, ___):
             if self._is_cheque(update):
-                await self._wallet.activate_cheque(update.message.reply_markup.rows[0].buttons[0].url[23:])
+                await self.wallet.activate_cheque(update.message.reply_markup.rows[0].buttons[0].url[23:])
 
         return RawUpdateHandler(handler)
