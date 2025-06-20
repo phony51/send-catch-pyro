@@ -43,8 +43,6 @@ class Aggregator:
     def update_handler(self):
         async def handler(_, update: Update, __, ___):
             if self._is_cheque(update):
-                print(update.message.reply_markup.rows[0].buttons[0])
-
                 await self._wallet.activate_cheque(update.message.reply_markup.rows[0].buttons[0].url[23:])
 
         return RawUpdateHandler(handler)
